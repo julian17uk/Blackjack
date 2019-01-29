@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>A game of Blackjack</title>
+    <link href="https://fonts.googleapis.com/css?family=Arbutus+Slab" rel="stylesheet">
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="styles.css">
+    
+    <style>     @import url('https://fonts.googleapis.com/css?family=Roboto');    
+            *{
+                font-family:'Roboto',sans-serif;
+            }</style>  
+
+    <style>         
+/*    @media screen and (max-width: 700px) {*/
+    body {
+         background-color: green;
+    }
+
+    #all {
+        background-color: green;    
+        }    
+        
+    #gametable {       
+         background-color: darkseagreen;
+    }
+    #start, #deal, #twist, #stick {
+        background-color: darkseagreen;
+        font-size: 22px;
+    } 
+    #status {
+        display: flex;    
+        align-items: center;
+        justify-content: center;
+
+        }         
+    #credits{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;    
+        font-size: 22px;
+        color:gold;
+        } 
+    #dealer, #player {
+         display: flex;
+         border: 0px solid #000;
+         flex-direction: column;
+         justify-content: left;
+         align-items: left;
+         font-size: 18px;
+    }         
+  
+    #panel {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        background-color: green;
+    }
+        
+    .blue {
+    padding: 0.5rem 2rem;
+    border: 1px #ccc solid;
+    display: inline-block;
+    margin: 3rem 0 0;
+    border-radius: 50px;
+    text-decoration:none;
+    color:black;
+    transition: background 800ms ease;
+    font-family: sans-serif;
+    object-position: center;
+    background-color: white;
+    }
+    .blue:disabled {
+        color:grey;
+        }  
+    .blue:hover {
+        color:gold;
+        }    
+        
+    </style>
+</head>
+
+<body>
+<!--
+    <div id="all">
+        <center>
+            <header>
+                
+        <div id="toprow">21: A new game
+        <nav>
+        <a href="index.html" class="button"><span style=font-family: 'Major Mono Display' > Home</span></a>
+        <a class="button" href="about.html"><span style=font-family: 'Major Mono Display'>  About</span></a>
+        <a class="button" href="services.html"><span style=font-family: 'Major Mono Display'>  Services</span></a> 
+            <a class="button" href="index.html"><span style=font-family: sans-serif> End Game</span></a>
+            <a class="button" href="gamerules.html"><span style=font-family: sans-serif> Game Rules</span></a>
+         
+        </nav> 
+        </div>    
+
+            </header>
+        </center>
+    </div>
+-->
+    
+    <div id="table">
+    <div id="credits">
+        <div id="Credits">Credits: $100</div>
+        
+        <div id="Betsize">Bet size: $0</div>
+    </div>    
+    <br>
+    <div class="container" id="dealer">
+        <div id="dealer-score" class="score">Dealer value: <span>0</span></div>       
+<!--
+        <div id="dealerdemo">Dealer cards:
+        </div>    
+-->
+    </div>    
+        <img id="dealer0" src="images/cardbackred.png" width="120px">
+        <img id="dealer1" src="images/cardbackred.png" width="120px">
+        <img id="dealer2" width="120px">
+        <img id="dealer3" width="120px">
+        <img id="dealer4" width="120px">
+    <div class="border-line"></div>
+    <br>
+    <div class="container" id="dealer">    
+        <div id="player-score" class="score">Your value: <span>0</span></div>
+<!--
+        <div id="playerdemo">Player cards:
+        </div>
+-->
+    </div>
+        <img id="player0" src="images/cardbackred.png" width="120px">
+        <img id="player1" src="images/cardbackred.png" width="120px">
+        <img id="player2" width="120px">
+        <img id="player3" width="120px">
+        <img id="player4" width="120px">  
+    </div>
+    <div id="status">Game Status: Press start to begin game</div>
+
+    <div id="panel">
+        <button  id="start" class="blue" type="button">Start</button>
+    </div>
+    <div id="panel">
+        <button id="deal" class="blue" type="button" disabled>Deal $10</button>
+        <button id="twist" class="blue" type="button" disabled>Twist</button>
+        <button id="stick" class="blue" type="button" disabled>Stick</button>
+    </div>
+    <div id="shuffledemo"> </div>
+
+    <!--    <script type="text/javascript" src="blackjackJKsunday.js"></script>-->
+
+    
+    <script>
+        var cards = [
+            [0, 1, "Ace of clubs", "images/PNG-cards-1.3/ace_of_clubs.png"],
+            [1, 2, "Two of clubs", "images/PNG-cards-1.3/2_of_clubs.png"],
+            [2, 3, "Three of clubs", "images/PNG-cards-1.3/3_of_clubs.png"],
+            [3, 4, "Four of clubs", "images/PNG-cards-1.3/4_of_clubs.png"],
+            [4, 5, "Five of clubs", "images/PNG-cards-1.3/5_of_clubs.png"],
+            [5, 6, "Six of clubs", "images/PNG-cards-1.3/6_of_clubs.png"],
+            [6, 7, "Seven of clubs", "images/PNG-cards-1.3/7_of_clubs.png"],
+            [7, 8, "Eight of clubs", "images/PNG-cards-1.3/8_of_clubs.png"],
+            [8, 9, "Nine of clubs", "images/PNG-cards-1.3/9_of_clubs.png"],
+            [9, 10, "Ten of clubs", "images/PNG-cards-1.3/10_of_clubs.png"],
+            [10, 10, "Jack of clubs", "images/PNG-cards-1.3/jack_of_clubs2.png"],
+            [11, 10, "Queen of clubs", "images/PNG-cards-1.3/queen_of_clubs2.png"],
+            [12, 10, "King of clubs", "images/PNG-cards-1.3/king_of_clubs2.png"],
+            [13, 1, "Ace of diamonds", "images/PNG-cards-1.3/ace_of_diamonds.png"],
+            [14, 2, "Two of diamonds", "images/PNG-cards-1.3/2_of_diamonds.png"],
+            [15, 3, "Three of diamonds", "images/PNG-cards-1.3/3_of_diamonds.png"],
+            [16, 4, "Four of diamonds", "images/PNG-cards-1.3/4_of_diamonds.png"],
+            [17, 5, "Five of diamonds", "images/PNG-cards-1.3/5_of_diamonds.png"],
+            [18, 6, "Six of diamonds", "images/PNG-cards-1.3/6_of_diamonds.png"],
+            [19, 7, "Seven of diamonds", "images/PNG-cards-1.3/7_of_diamonds.png"],
+            [20, 8, "Eight of diamonds", "images/PNG-cards-1.3/8_of_diamonds.png"],
+            [21, 9, "Nine of diamonds", "images/PNG-cards-1.3/9_of_diamonds.png"],
+            [22, 10, "Ten of diamonds", "images/PNG-cards-1.3/10_of_diamonds.png"],
+            [23, 10, "Jack of diamonds", "images/PNG-cards-1.3/jack_of_diamonds2.png"],
+            [24, 10, "Queen of diamonds", "images/PNG-cards-1.3/queen_of_diamonds2.png"],
+            [25, 10, "King of diamonds", "images/PNG-cards-1.3/king_of_diamonds2.png"],
+            [26, 1, "Ace of hearts", "images/PNG-cards-1.3/ace_of_hearts.png"],
+            [27, 2, "Two of hearts", "images/PNG-cards-1.3/2_of_hearts.png"],
+            [28, 3, "Three of hearts", "images/PNG-cards-1.3/3_of_hearts.png"],
+            [29, 4, "Four of hearts", "images/PNG-cards-1.3/4_of_hearts.png"],
+            [30, 5, "Five of hearts", "images/PNG-cards-1.3/5_of_hearts.png"],
+            [31, 6, "Six of hearts", "images/PNG-cards-1.3/6_of_hearts.png"],
+            [32, 7, "Seven of hearts", "images/PNG-cards-1.3/7_of_hearts.png"],
+            [33, 8, "Eight of hearts", "images/PNG-cards-1.3/8_of_hearts.png"],
+            [34, 9, "Nine of hearts", "images/PNG-cards-1.3/9_of_hearts.png"],
+            [35, 10, "Ten of hearts", "images/PNG-cards-1.3/10_of_hearts.png"],
+            [36, 10, "Jack of hearts", "images/PNG-cards-1.3/jack_of_hearts2.png"],
+            [37, 10, "Queen of hearts", "images/PNG-cards-1.3/queen_of_hearts2.png"],
+            [38, 10, "King of hearts", "images/PNG-cards-1.3/king_of_hearts2.png"],
+            [39, 1, "Ace of spades", "images/PNG-cards-1.3/ace_of_spades.png"],
+            [40, 2, "Two of spades", "images/PNG-cards-1.3/2_of_spades.png"],
+            [41, 3, "Three of spades", "images/PNG-cards-1.3/3_of_spades.png"],
+            [42, 4, "Four of spades", "images/PNG-cards-1.3/4_of_spades.png"],
+            [43, 5, "Five of spades", "images/PNG-cards-1.3/5_of_spades.png"],
+            [44, 6, "Six of spades", "images/PNG-cards-1.3/6_of_spades.png"],
+            [45, 7, "Seven of spades", "images/PNG-cards-1.3/7_of_spades.png"],
+            [46, 8, "Eight of spades", "images/PNG-cards-1.3/8_of_spades.png"],
+            [47, 9, "Nine of spades", "images/PNG-cards-1.3/9_of_spades.png"],
+            [48, 10, "Ten of spades", "images/PNG-cards-1.3/10_of_spades.png"],
+            [49, 10, "Jack of spades", "images/PNG-cards-1.3/jack_of_spades2.png"],
+            [50, 10, "Queen of spades", "images/PNG-cards-1.3/queen_of_spades2.png"],
+            [51, 10, "King of spades", "images/PNG-cards-1.3/king_of_spades2.png"],
+        ]
+      
+        var playerImage0 = document.getElementById("player0");
+        var playerImage1 = document.getElementById("player1");
+        var playerImage2 = document.getElementById("player2");
+        var playerImage3 = document.getElementById("player3");
+        var playerImage4 = document.getElementById("player4");
+        var dealerImage0 = document.getElementById("dealer0");
+        var dealerImage1 = document.getElementById("dealer1");
+        var dealerImage2 = document.getElementById("dealer2");
+        var dealerImage3 = document.getElementById("dealer3");
+        var dealerImage4 = document.getElementById("dealer4");
+                
+  //      var cardimagelocation = "images/PNG-cards-1.3/10_of_spades.png";
+        var playersvalue = 0;
+        var dealersvalue = 0;
+        var playersarray = [];
+        var dealersarray = [];
+        var shufflearray = [];
+        var playershandsize = 0;
+        var dealershandsize = 0;
+        var playernoaces = 0;
+        var dealernoaces = 0;
+        var shufflehandposition = 0;
+        var playerchoice = "empty";
+        var credits = 100;
+        var betsize = 0;
+
+        function startgame() {
+            document.getElementById("status").innerHTML = "Shuffling";
+            // clearing the deck of cards
+            dealerImage1.setAttribute("src","images/cardbackred.png");
+            dealerImage2.style.visibility = 'hidden';
+            dealerImage3.style.visibility = 'hidden';
+            dealerImage4.style.visibility = 'hidden';
+            playerImage2.style.visibility = 'hidden';
+            playerImage3.style.visibility = 'hidden';
+            playerImage4.style.visibility = 'hidden';
+            dealerImage2.setAttribute("src","");
+            dealerImage3.setAttribute("src","");
+            dealerImage4.setAttribute("src","");
+            playerImage2.setAttribute("src","");
+            playerImage3.setAttribute("src","");
+            playerImage4.setAttribute("src","");
+            
+            
+            // Shuffle deck to initialize game only draw 10 cards (max)
+            betsize = 10;
+            credits -= betsize;
+            document.getElementById("Credits").innerHTML = "Credits: $" + credits;
+            document.getElementById("Betsize").innerHTML = "Bet size: $" + betsize;
+            playersvalue = 0;
+            dealersvalue = 0;
+            playershandsize = 0;
+            dealershandsize = 0;
+            playernoaces = 0;
+            dealernoaces = 0;
+            shufflehandposition = 0;
+            for (i = 0; i < 10; i++) {
+                shufflearray[i] = 52;
+                playersarray[i] = 52;
+                dealersarray[i] = 52;
+            }
+
+            for (i = 0; i < 10; i++) {
+                var goodcard = false;
+                //       document.getElementById("status").innerHTML += i;
+
+                do {
+                    var x = Math.floor(Math.random() * 52);
+
+                    //check number of card has not already been selected
+                    var counter = 0;
+                    for (j = 0; j < 10; j++) {
+                        if (shufflearray[j] == x) {
+                            counter = counter;
+                        } else {
+                            counter += 1;
+                        }
+                    }
+                    //         add good card to shufflearray    
+                    if (counter === 10) {
+                        goodcard = true;
+                        shufflearray[i] = x;
+                    }
+                } while (goodcard == false);
+            }
+
+            playersarray[0] = shufflearray[0];
+            if (playersarray[0] == 0 || playersarray[0] == 13 || playersarray[0] == 26 || playersarray[0] == 39)
+                {
+                playernoaces = 1;    
+                }
+            playersarray[1] = shufflearray[2];
+            if (playersarray[1] == 0 || playersarray[1] == 13 || playersarray[1] == 26 || playersarray[1] == 39)
+                {
+                playernoaces = 1;    
+                }
+            dealersarray[0] = shufflearray[1];
+            if (dealersarray[0] == 0 || dealersarray[0] == 13 || dealersarray[0] == 26 || dealersarray[0] == 39)
+                {
+                dealernoaces = 1;    
+                }
+            playershandsize = 2;
+            dealershandsize = 1;
+            shufflehandposition = 3;
+//            document.getElementById("playerdemo").innerHTML = "Player cards:" + cards[playersarray[0]][2] + ", ";
+//            document.getElementById("playerdemo").innerHTML += cards[playersarray[1]][2] + ", ";
+            // Display initial cards on screen            
+            playerImage0.setAttribute("src",cards[playersarray[0]][3]);
+            playerImage1.setAttribute("src",cards[playersarray[1]][3]);
+            dealerImage0.setAttribute("src",cards[dealersarray[0]][3]);
+
+//            document.getElementById("dealerdemo").innerHTML = "Dealer cards:" + cards[dealersarray[0]][2] + ", ";
+            document.getElementById("status").innerHTML = "Player's go";
+
+            //    // function to calculate hand values       
+            for (i = 0; i < playershandsize; i++) {
+                playersvalue = playersvalue + cards[playersarray[i]][1];
+            }
+            for (i = 0; i < dealershandsize; i++) {
+                dealersvalue = dealersvalue + cards[dealersarray[i]][1];
+            }
+
+            document.getElementById("player-score").innerHTML = "Your value: " + playersvalue;
+            // Handling aces
+            if (playernoaces == 1  ) {
+                document.getElementById("player-score").innerHTML += " or " + (playersvalue+10);    
+            }                
+            document.getElementById("dealer-score").innerHTML = "Dealer value: " + dealersvalue;;
+            if (dealernoaces == 1 ) {
+                document.getElementById("dealer-score").innerHTML += " or " + (dealersvalue + 10);
+            }
+            // hiding buttons
+            document.getElementById("deal").disabled = false;
+            document.getElementById("twist").disabled = false;
+            document.getElementById("stick").disabled = false;
+            document.getElementById("start").disabled = true;
+        }
+
+        function playergameplay() {
+            document.getElementById("status").innerHTML = "Player's go";
+            playeraddcard();
+        }
+
+        function playeraddcard() {
+            playersarray[playershandsize] = shufflearray[shufflehandposition];
+            // checking for aces in player's hand
+            if (playersarray[playershandsize] == 0 || playersarray[playershandsize] == 13 || playersarray[playershandsize] == 26 || playersarray[playershandsize] == 39)
+                {
+                playernoaces = 1;    
+                }
+            
+            playersvalue += cards[playersarray[playershandsize]][1];
+//            document.getElementById("playerdemo").innerHTML += cards[playersarray[playershandsize]][2] + ", ";
+            
+            // Displaying players cards on screen
+            if (playershandsize == 2) {
+                playerImage2.setAttribute("src",cards[playersarray[2]][3]);
+                playerImage2.style.visibility = 'visible';
+
+            } else if (playershandsize == 3) {
+                playerImage3.setAttribute("src",cards[playersarray[3]][3]);
+                playerImage3.style.visibility = 'visible';
+
+            } else if (playershandsize == 4) {
+                playerImage4.setAttribute("src",cards[playersarray[4]][3]);
+                playerImage4.style.visibility = 'visible';
+
+            }
+                     
+            document.getElementById("player-score").innerHTML = "Your value: " + playersvalue;
+            if (playernoaces == 1) {
+                if (playersvalue + 10 <= 21) {
+                    document.getElementById("player-score").innerHTML += " or " + (playersvalue + 10);
+                }
+            }
+            playershandsize++;
+            shufflehandposition++;
+            if (playersvalue >21 ) {
+                results();
+            } else if (playershandsize == 5) {
+                dealergameplay();
+            } else if (playersvalue == 21) {
+                dealergameplay();
+            }
+
+        }
+
+        function dealeraddcard() {
+            dealersarray[dealershandsize] = shufflearray[shufflehandposition];
+            dealersvalue += cards[dealersarray[dealershandsize]][1];
+//            document.getElementById("dealerdemo").innerHTML += cards[dealersarray[dealershandsize]][2] + ", ";
+            
+            // Displaying dealers cards on screen
+            if (dealershandsize == 1) {
+                dealerImage1.setAttribute("src",cards[dealersarray[1]][3]);
+            } else if (dealershandsize == 2) {
+                dealerImage2.setAttribute("src",cards[dealersarray[2]][3]);
+                dealerImage2.style.visibility = 'visible';
+            } else if (dealershandsize == 3) {
+                dealerImage3.setAttribute("src",cards[dealersarray[3]][3]);
+                dealerImage3.style.visibility = 'visible';
+            } else if (dealershandsize == 4 ) {
+                dealerImage4.setAttribute("src",cards[dealersarray[4]][3]);   
+                dealerImage4.style.visibility = 'visible';
+            }
+            
+            document.getElementById("dealer-score").innerHTML = "Dealer value: " + dealersvalue;
+            // checking for aces in dealer's hand 
+            if (dealersarray[dealershandsize] == 0 || dealersarray[dealershandsize] == 13 || dealersarray[dealershandsize] == 26 || dealersarray[dealershandsize] == 39)
+                {
+                dealernoaces = 1;    
+                }
+            if (dealernoaces == 1) {
+              if (dealersvalue + 10 <= 21) {
+                  document.getElementById("dealer-score").innerHTML = " or " + (dealersvalue + 10);
+              }  
+          }
+            dealershandsize++;
+            shufflehandposition++;
+        }
+
+        function dealergameplay() {
+            // Handling aces in players hand
+            if (playernoaces == 1) {
+                if (playersvalue + 10 <= 21) {
+                    playersvalue += 10;
+                    document.getElementById("player-score").innerHTML = "Your value: " + playersvalue;
+                }
+            }
+            
+            document.getElementById("status").innerHTML = "Dealer playing";
+            var continuestatus = 1;
+            // add second and further cards to dealer's hand
+            do {
+                dealeraddcard();
+                // //    logic do decide what dealer should do!
+                if (dealershandsize >= 5) {
+                    continuestatus = 0;
+                }
+                if (dealersvalue >= 17) {
+                    continuestatus = 0;
+                }
+                // handling aces in dealers hand
+                if (dealernoaces == 1) {
+                    if (dealersvalue + 10 >= 17 && dealersvalue + 10 <= 21) {
+                        continuestatus = 0;
+                        dealersvalue += 10;
+                        document.getElementById("dealer-score").innerHTML = "Dealer value: " + dealersvalue;
+                    }
+                }
+            } while (continuestatus === 1);
+
+            results();
+        }
+
+        function results() {
+            document.getElementById("start").disabled = false;
+            document.getElementById("deal").disabled = true;
+            document.getElementById("twist").disabled = true;
+            document.getElementById("stick").disabled = true;
+            if (playersvalue > 21) {
+                document.getElementById("status").innerHTML = "Player loses $" + betsize +  ". Press start to play again" + "<br>";
+            } else if (dealersvalue > 21) {
+                document.getElementById("status").innerHTML = "Player wins $" + betsize + ". Press start to play again" + "<br>";
+                credits += 2*betsize;
+                document.getElementById("Credits").innerHTML = "Credits: $"+ credits;
+            } else {
+                if (playersvalue > dealersvalue) {
+                    document.getElementById("status").innerHTML = "Player wins $" + betsize + ". Press start to play again" + "<br>";
+                    credits += 2*betsize;
+                    document.getElementById("Credits").innerHTML = "Credits:$"+ credits;
+
+                } else {
+                    document.getElementById("status").innerHTML = "Player loses $" + betsize + ". Press start to play again" + "<br>";
+                }
+            }
+        }
+
+        function main() {
+            var nameNew = "Shuffling cards";
+            document.getElementById("status").innerHTML = nameNew + "<br>";
+            startgame();
+        }
+
+        function deal1() {
+            playerchoice = "deal";
+            credits = credits - 10;
+            betsize += 10;
+            document.getElementById("Credits").innerHTML = "Credits: $" + credits;
+            document.getElementById("Betsize").innerHTML = "Bet size: $" + betsize;
+            document.getElementById("status").innerHTML = "Player playing";
+            playergameplay();
+        }
+
+        function twist() {
+            document.getElementById("deal").disabled = true;
+            playerchoice = "twist";
+            playergameplay();
+        }
+
+        document.getElementById("start").addEventListener("click", main);
+        document.getElementById("twist").addEventListener("click", twist);
+        document.getElementById("stick").addEventListener("click", dealergameplay);
+        document.getElementById("deal").addEventListener("click", deal1);
+
+    </script>
+
+    <!--
+    <script type="text/javascript">
+      //initialise the game
+//      BlackjackJS.init();
+    </script>
+-->
+</body>
+
+</html>
