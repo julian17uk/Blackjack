@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Game Rules </title>
+        <style>     @import url('https://fonts.googleapis.com/css?family=Roboto');    
+            *{
+                font-family:'Roboto',sans-serif;
+            }</style>  
+        
+        <style>
+
+            #para{
+                float:left;
+                width:60%;
+                
+            }
+            aside{
+                float:right;
+                width:40%;
+            }
+    
+    body {
+        background-color: green;
+        background-image: url("images/baize5.jpg");
+        background-repeat: repeat;
+        background-size: cover;
+    }        
+    .button {
+    padding: 0.0rem 1rem;
+    display: inline-block;
+    margin: 0.0rem 0 0;
+    text-decoration:none;
+    color:black;
+    transition: background 800ms ease;
+    font-family: sans-serif;
+    object-position: right;
+    text-align: right;
+    }
+     .button:hover {
+     background-color:lightgray;
+    }  
+      
+    .blue {
+    padding: 0.3rem 2rem;
+    border: 1px #ccc solid;
+    display: inline-block;
+    margin: 1.5rem 0 0;
+    border-radius: 50px;
+    text-decoration:none;
+    color:black;
+    transition: background 800ms ease;
+    font-family: sans-serif;
+    object-position: center;
+    background-color: darkseagreen;
+    }
+    .blue:disabled {
+        color:grey;
+        }  
+    .blue:hover {
+        color:gold;
+        }              
+            
+            
+header{
+/*
+    padding-top: 0.45rem;
+    font-weight: bold;
+*/
+    font-size: 24;
+    margin:0;
+}
+
+header #toprow {
+    background-color: gold;
+    text-align: left;
+    width: 95%;
+    margin: .45rem  ;
+    overflow: hidden;
+    font-weight: bold;
+}
+    
+header nav {
+    float: right;
+    font-weight: normal;
+    margin:0;
+    padding: 0;
+}    
+            
+            
+        </style>
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+
+    
+<body>
+    <div id="all">
+    <center>
+    <header>
+        <div id="toprow">Blackjack
+        <nav>
+        <a class="button" href="game6.html"><span > New Game</span></a>
+
+        </nav> 
+        </div>    
+    </header>
+      
+    <section id="newsletter">
+        <div class="container">
+        
+
+        </div>         
+    </section>
+    
+        <div class="container">
+        <section id="para">
+           <article id="main-col">  
+            <h1> Game Rules</h1>
+            <ul id="services">
+               <li>
+                <h3> Player game play </h3>
+                <p>  The player places a bet of 10 credits at the start of each hand. The player receives two cards and the dealer receives one. The player can continue betting (same 10 credits as before), or Twist to get an extra card (max 5 cards). Otherwise the player can choose to stick (receive no more cards). </p>
+                <p> If value of the player's hand is greater than 21 the player loses</p>
+                </li>
+                <li>
+                <h3> Card values </h3>
+                <p>  Ace is valued at either 1 or 11, Jack, Queen and King are all 10. Suits are disregarded. The value of the hand is the sum of the values of each of the cards </p>
+                <p> Max five cards per hand</p>
+                </li>
+                <li>
+                <h3> Dealer game play </h3>
+                <p>  After the player finishes their go, the dealer receives a second card. If the value of the hand is equal to or greater than 17, the dealer may stick. Otherwise the dealer must twist (deal out another card to the dealer's hand). </p>
+                <p> If the value of the dealer's hand is greater than 21 the dealer loses and the player wins.</p>
+                </li>
+                <li>
+                <h3> Player wins / loses </h3>
+                <p>  If the player's hand value is greater than the dealer's hand value then the player wins. Otherwise the player loses.</p>
+                <p> The player receives twice their bet on winning and zero (i.e. loses their stake) on losing</p>
+                </li>
+               </ul>
+            </article>
+        </section>
+
+        </div>
+    
+    <br><br><br><br>    
+    <div id="services">
+            <a class="blue" href="#toprow"><span> Top </span></a>       
+    </div>
+       
+        
+    <footer>
+        <h5> 2019 Copyright J Karnik
+        </h5>
+    </footer> 
+        
+    </center>  
+    </div>    
+</body>
+</html>

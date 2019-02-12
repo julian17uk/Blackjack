@@ -1,0 +1,137 @@
+.button {
+    padding: 0.0rem 1rem;
+    display: inline-block;
+    margin: 0.0rem 0 0;
+    text-decoration:none;
+    color:black;
+    transition: background 800ms ease;
+    font-family: sans-serif;
+    object-position: right;
+    text-align: right;
+}
+.button:hover {
+        background-color:orange;
+}
+
+/*
+.button1 {
+    padding: 0.0rem 1rem;
+    display: inline-block;
+    margin: 0.0rem 0 0;
+    text-decoration:none;
+    color:black;
+    transition: orange 800ms ease;
+    font-family: sans-serif;
+    object-position: right;
+    text-align: right;
+}
+.button1:hover {
+        background-color:black;
+} 
+*/
+#all {
+/*    background-color: darkgrey;*/
+}
+
+.current{
+    background-color: orange;
+    font-weight:bold;
+}
+
+header{
+/*
+    padding-top: 0.45rem;
+    font-weight: bold;
+*/
+    font-size: 24;
+    margin:0;
+}
+
+header #toprow {
+    background-color: gold;
+    text-align: left;
+    width: 95%;
+    margin: .45rem  ;
+    overflow: hidden;
+    font-weight: bold;
+}
+    
+header nav {
+    float: right;
+    font-weight: normal;
+    margin:0;
+    padding: 0;
+} 
+
+footer {
+    color: grey;
+}
+
+.container{
+    width: 95%;
+    margin:auto;
+    overflow: hidden;
+    color: gold;
+}
+
+ul#services li{
+    list-style: none;
+    padding: 20px;
+    border: gold solid 2px;
+    margin-bottom: 5px;
+}
+
+
+#showcase{
+    min-height: 400px;
+    background: url('../images/nasa4.jpeg');
+    color:orange;
+    text-align:left;
+}
+
+#showcase h1{
+    font-size: 32pt;
+}
+
+#showcase p{
+    font-size: 20pt;
+}
+
+#newsletter {
+    padding: 0px;
+    color: #ffffff;
+    background: #darkgray;
+}
+
+#newsletter h3{
+    float:left;
+}
+
+#newsletter form{
+    float:right;
+    margin-top:15px;
+}
+
+#newsletter input[type="email"] {
+    padding: 4px;
+    height: 25px;
+    width: 250px;
+    background-color: white;
+}
+
+aside form {
+    padding: 20px;
+    border:#cccccc solid 2px;
+    color: gold;
+    background-color: grey;
+}
+
+.button_1 {
+    float: left;
+    height: 15px;
+    background:#e8491d;
+    border:0;
+    padding-left: 20px;
+    padding-right: 20px;
+    color:#ffffff;
+}
